@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="base-uri 'self'; default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; object-src 'self'; worker-src 'self'; frame-src 'none'; form-action 'self'; manifest-src 'self'"
+    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="" />
+    <link rel="stylesheet" type="text/css" href="static/css/style.css" />
+    <link rel="manifest" href="static/manifest.json" />
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
+    <title>My PWA Application</title>
+  </head>
+  <body>
+    {% include "partial/menu.html" %} 
+    {% block content %}
+    {% endblock %} 
+    {%include "partial/footer.html" %}
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/serviceWorker.js"></script>
+    <script src="static/js/app.js"></script>
+  </body>
+</html>
