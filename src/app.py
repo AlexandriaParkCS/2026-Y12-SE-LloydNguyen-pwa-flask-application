@@ -4,6 +4,9 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import redirect
+from flask import session
+from flask import url_for
+from flask import flash
 from flask_wtf import CSRFProtect
 from flask_csp.csp import csp_header
 
@@ -13,13 +16,13 @@ from sqldb import SqlDb
 
 log = logging.getLogger(__name__)
 logging.basicConfig(
-    filename="../runtime/log/app.log",
+    filename="./runtime/log/app.log",
     encoding="utf-8",
     level=logging.DEBUG,
     format=" %(asctime)s %(message)s",
 )
 
-sql_db = SqlDb("../runtime/db/sql.db")
+sql_db = SqlDb("./runtime/db/sql.db")
 # OR
 # orm_db = OrmDb("../runtime/db/orm.db")
 
@@ -60,6 +63,75 @@ def root():
 )
 def index():
     return render_template("/index.html")
+@app.route("/signup.html", methods=["POST", "GET"])
+def signup():
+
+    error = None
+
+    if request.method == "POST":
+        username = request.form["username"].strip()
+        email    = request.form["email"].strip()
+        password = request.form["password"]
+        confirm  = request.form["confirm_password"]
+
+        # Validation
+        if not username or not email or not password:
+            error = "All fields are required."
+        elif password != confirm:
+            error = "Passwords do not match."
+        elif len(password) < 8:
+            error = "Password must be at least 8 characters."
+        else:
+            user = sql_db.create_user(username, email, password)
+            if user is None:
+                error = "That username or email is already taken. Please try another."
+            else:
+                log.info(f"New user registered: {username}")
+                flash("Account created! Please log in.")
+                return redirect(url_for("login"))
+
+    return render_template("/signup.html", error=error)
+
+@app.route("/login.html", methods=["POST", "GET"])
+def login():
+
+    error = None
+
+    if request.method == "POST":
+        email    = request.form["email"].strip()
+        password = request.form["password"]
+
+        user = sql_db.verify_login(email, password)
+        if user is None:
+            error = "Incorrect email or password."
+            log.warning(f"Failed login attempt for email: {email}")
+        else:
+            # Save user info in the session
+            session["user_id"]  = user["id"]
+            session["username"] = user["username"]
+            session["email"]    = user["email"]
+            log.info(f"User logged in: {user['username']}")
+            return redirect(url_for("index"))
+
+    return render_template("/login.html", error=error)
+
+@app.route("/logout")
+def logout():
+    username = session.get("username", "unknown")
+    session.clear()
+    log.info(f"User logged out: {username}")
+    return redirect(url_for("login"))
+
+@app.route("/request.html", methods=["POST", "GET"])
+def send_request():
+    if "user_id" not in session:
+        flash("Please log in to access that page.")
+        return redirect(url_for("login"))
+    
+    if request.method == "POST":
+        pass
+    
+    return render_template("/request.html")
 
 @app.route("/privacy.html", methods=["GET"])
 def privacy():

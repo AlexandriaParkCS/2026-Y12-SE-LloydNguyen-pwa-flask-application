@@ -3,24 +3,27 @@
   <head>
     <meta
       http-equiv="Content-Security-Policy"
-      content="base-uri 'self'; default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; object-src 'self'; worker-src 'self'; frame-src 'none'; form-action 'self'; manifest-src 'self'"
+      content="base-uri 'self'; default-src 'self'; style-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self'; img-src 'self' data:; media-src 'self'; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; object-src 'self'; worker-src 'self'; frame-src 'none'; form-action 'self'; manifest-src 'self'"
     />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="" />
-    <link rel="stylesheet" type="text/css" href="static/css/style.css" />
-    <link rel="manifest" href="static/manifest.json" />
-    <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
-    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
-    <title>My PWA Application</title>
+    <meta name="theme-color" content="#3a6ba4" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <title>PetCareA</title>
   </head>
   <body>
     {% include "partial/menu.html" %} 
     {% block content %}
     {% endblock %} 
     {%include "partial/footer.html" %}
-    <script src="static/js/bootstrap.bundle.min.js"></script>
-    <script src="static/js/serviceWorker.js"></script>
-    <script src="static/js/app.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/serviceWorker.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   </body>
 </html>

@@ -1,11 +1,65 @@
 {% extends 'layout.html' %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <h1 class="display-1">Hello world!</h1>
-    </div>
-    <div class="row">
 
+
+<!-- Banner -->
+<div class="hero-banner">
+    <img src="{{ url_for('static', filename='images/pet.jpg') }}" alt="Pet banner">
+</div>
+
+<!-- Welcome Section -->
+<div class="container home-welcome">
+    <div class="row">
+        <div class="col-lg-8">
+            {% if username %}
+                <h1>Welcome back, {{ username }}!</h1>
+                <p class="lead">We are always here for your pet.</p>
+                <a href="/request.html" class="btn btn-primary me-2">Send a Request</a>
+                <a href="/logout" class="btn btn-outline-secondary">Log Out</a>
+            {% else %}
+                <h1>A home away from home<br>for your pet.</h1>
+                <p class="lead">Need somewhere to take care of your pet when you are away? Come to us!</p>
+                <a href="/signup.html" class="btn btn-primary me-2">Get Started</a>
+                <a href="/login.html" class="btn btn-outline-primary">Log In</a>
+            {% endif %}
+        </div>
     </div>
 </div>
+
+<!-- Services Section -->
+<div class="container pb-5">
+    <hr>
+    <h2 class="mb-4">Our Services</h2>
+    <div class="row g-4">
+        <div class="col-sm-6 col-lg-3">
+            <div class="service-card">
+                <span class="icon">✂️</span>
+                <h5>Grooming</h5>
+                <p>Full wash, cut, and styling for your pet.</p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="service-card">
+                <span class="icon">🩺</span>
+                <h5>Vet Appointment</h5>
+                <p>Book a check-up with our trusted vets.</p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="service-card">
+                <span class="icon">🏠</span>
+                <h5>Boarding</h5>
+                <p>Safe and comfortable overnight stays.</p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="service-card">
+                <span class="icon">🦮</span>
+                <h5>Dog Walking</h5>
+                <p>Daily walks with experienced handlers.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

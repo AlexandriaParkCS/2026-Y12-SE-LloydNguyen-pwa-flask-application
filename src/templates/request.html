@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="request-card">
+
+                <h2>Send a Request</h2>
+                <p style="color: var(--text-light); margin-bottom: 1.8rem;">Fill in the details below and we'll get back to you shortly.</p>
+
+                <form method="POST" action="/request.html">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <div class="mb-3">
+                        <label for="pet_name" class="form-label">Pet Name</label>
+                        <input type="text" class="form-control" id="pet_name" name="pet_name" placeholder="Your pet's name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="service" class="form-label">Service Needed</label>
+                        <select class="form-select" id="service" name="service" required>
+                            <option value="" disabled selected>Choose a service...</option>
+                            <option value="grooming">✂️ Grooming</option>
+                            <option value="vet">🩺 Vet Appointment</option>
+                            <option value="boarding">🏠 Boarding</option>
+                            <option value="walking">🦮 Dog Walking</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Preferred Date</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="message" class="form-label">Additional Notes</label>
+                        <textarea class="form-control" id="message" name="message" rows="3" placeholder="Any extra details about your pet..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Submit Request</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
